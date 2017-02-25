@@ -107,27 +107,27 @@ class neural_network(object):
         accuracy = np.mean(predicted_class == y)
         print 'test accuracy: %.2f' % (accuracy)
 
-# create a toy dataset: binary classification of 200 obs with 3 features
+# create a toy dataset: binary classification of 200 obs with 2 features
 # let's try to make the cases separable, so 1/2 of Xs are drawn from a normal distribution N(0,1)
-# and another 1/2 is from a distribution N(10,1). Those would be perfectly linearly separable
-# so even a cat would be able to classify those. What about a NN, um?
+# and another 1/2 is from a distribution N(10,1). Those would be perfectly linearly separable.
 
 x = np.append(np.random.randn(100, 2),(np.random.randn(100, 2) + 10), axis=0)
 y = np.append(np.zeros([100],dtype='uint8'),np.ones([100],dtype='uint8'), axis=0)
 plt.scatter(x[:,0],x[:,1], c=y, s=40)
+
 # train the classifier:
 nn = neural_network(x,y,1e-2,1e-3,100,3000)
 nn.train()
 
-# now predict new results based on unseen data (should produce all zeros)
+# now test prediciton accuracay on unseen data:
 x_test = np.random.randn(10, 2)
 y_test = np.zeros([10],dtype='uint8')
+
 # this baby returns 1 :S
 nn.predict(x_test,y_test)
 
 # visualization of loss over iterations:
 plt.plot(nn.viz_loss)
 
-# now visialize scatter of loss and prediction accuracy: as loss going down, we can see a drastic increase
-# in accuracy, whoa!
+# now visialize scatter of loss and prediction accuracy: as loss going down, we can see a drastic increase in accuracy, whoa!
 plt.scatter(nn.viz_accuracy,nn.viz_loss)
