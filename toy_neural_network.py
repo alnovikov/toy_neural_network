@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 '''
+Disclaimer: some of the building blocks for the code are heavily inspired by http://cs231n.github.io/neural-networks-case-study/.
+This was created for education purposes.
+
 What:
     -create a toy example of a vanilla neural network.
 Why?
@@ -48,8 +51,9 @@ class neural_network(object):
             f = lambda x: np.maximum(0, x)
             h1 = f(np.dot(self.x, self.W1) + self.b1)
             scores = np.dot(h1, self.W2) + self.b2  # NB that we don't use activation function on the output layer
-            # compute the loss
-            scores -= np.max(scores)
+            
+            # compute the loss (Softmax)
+            scores -= np.max(scores) # normalize the scores first
             probs = np.exp(scores) / np.sum(np.exp(scores),axis=1, keepdims=True)
             log_probs = -np.log(probs[range(self.x.shape[0]),self.y])
             softmax_loss = np.sum(log_probs)/self.x.shape[0]
